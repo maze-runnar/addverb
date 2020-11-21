@@ -2,7 +2,7 @@ from flask import Flask,render_template,url_for,request,redirect, session
 import os
 from io import StringIO
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta,date
 
 
 
@@ -202,7 +202,15 @@ def allQuestions():
 
 	else:
 		tasks = Todo.query.order_by(Todo.date_create).all()
-		return render_template('allquestions.html', tasks=tasks)
+		new_tasks = []
+		previous_tasks = []
+		for i in tasks:
+			if i.date_create + timedelta(days=i.complete_in) >  datetime.utcnow():
+				new_tasks.append(i)
+			else:
+				previous_tasks.append(i)
+
+		return render_template('allquestions.html', tasks=new_tasks, previous_tasks = previous_tasks)
 
 @app.route('/detail/<int:id>', methods=['GET', 'POST'])
 def detail(id):
