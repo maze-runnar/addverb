@@ -1,0 +1,64 @@
+{% include "base.html" %}
+{% if session['logged_in'] or session['teacher_logged_in'] %}
+  <Div style=" max-width: 80rem; margin: auto; margin-bottom: 5vh; background-color: rgb(65, 43, 43); color: antiquewhite; box-shadow: 0 20px 30px 0 rgba(1, 24, 24, 0.3);
+    padding: 10px;
+    border: inherit;
+    border-radius: 5px;" class="heading">
+
+  <h3 style=" text-align: center; font-family: monospace;" >  Schedule a class here &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/" class="btn btn-danger">Home</a> &nbsp; <a class="btn btn-danger" href="/logout"> logout </a> </h3>
+</Div>
+
+
+<div class="row justify-content-between">
+
+  <div style="width: 100%;
+            max-width: 50rem;
+            margin: auto;
+            margin-top: 20px;
+            box-shadow: 0 20px 30px 0 rgba(6, 7, 7, 0.3);" class="history">
+    <div class="card">
+        <div style="text-align: center;" class="card-body">
+        <h2><b><u>E-learning/library</u></b></h2><hr>
+        <h4 style="color: rgb(83, 80, 80);"> Checkout online books resources. And also a messenger bot which would help you in finding Journal, Books, Authors. </h4>
+				<hr><a href="/e-learning">
+        <h3 class="card-title">Visit Now</h3>
+				</a>
+        </div>
+    </div>
+  </div>
+
+     <div style="width: 100%;
+            max-width: 50rem;
+            margin: auto;
+            margin-top: 20px;
+            box-shadow: 0 20px 30px 0 rgba(10, 14, 14, 0.3);" class="history">
+    <div class="card" >
+      <div style="text-align: center;" class="card-body">
+        <h2><b><u>All Upcoming Classes</u></b></h2><hr>
+        <h4 style="color: rgb(83, 80, 80);"> See all your upcoming classes here. Attend class from here and mark it as attended.  </h4>
+				<hr><a href="/current-classes">
+        <h3 class="card-title">See Schedule</h3>
+				</a>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+  <div style="width: 100%;
+            max-width: 50rem;
+            margin: auto;
+            margin-top: 20px;
+            box-shadow: 0 20px 30px 0 rgba(11, 14, 14, 0.3);" class="history">
+    <div style="text-align: center;" class="card-body">
+        <h2><b><u>Answer/Ask Questions</u></b></h2><hr>
+        <h4 style="color: rgb(83, 80, 80);"> Post a question, answer the question. Teacher can assign some credit to questions. It is a form of assignment and students will be evaluated based on their answer quality by teachers from the points that are assigned to question.</h4>
+				<hr><a href="/all-questions">
+        <h3 class="card-title">All Questions</h3>
+				</a>
+        </div>
+    </div>
+  </div>
+</div>
+{% else %}
+  <a href="/student-login"> login </a>
+{% endif %}

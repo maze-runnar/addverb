@@ -1,0 +1,23 @@
+{% include "base.html" %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">subject</th>
+      <th scope="col">Time</th>
+      <th scope="col">action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in allclasses %}
+    <tr>
+      <th scope="row">{{i.topic}}</th>
+      <td>{{i.subject}}</td>
+      <td>{{i.time}}</td>
+      <td>
+      <a class="btn btn-warning" target="_blank" href="{{i.url}}" role="button">Attend</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

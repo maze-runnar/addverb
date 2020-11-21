@@ -1,0 +1,65 @@
+{% include "base.html" %}
+<style>
+.disdic{
+    box-shadow: 0 20px 30px 0 rgba(233, 236, 236, 0.3);
+    padding: 10px;
+    border: inherit;
+    border-radius: 5px;
+}
+
+.has-margin-right{
+    margin: 0 2rem 0 2rem;
+}
+
+</style>
+
+<div  class="container">
+<Div style=" margin-top: 5vh; margin-bottom: 5vh; background-color: rgb(65, 43, 43); color: antiquewhite; box-shadow: 0 20px 30px 0 rgba(1, 24, 24, 0.3);
+    padding: 10px;
+    border: inherit;
+    border-radius: 5px;" class="heading">
+  <h3 style="padding-top: 5vh; padding-bottom: 5vh; text-align: center; font-family: monospace;" > Make Assignments more engaging </h3>
+</Div>
+<div style="margin-bottom: 10vh; " class="row justify-content-between">
+  <div style="box-shadow: 0 20px 30px 0 rgba(23, 121, 121, 0.3);border: inherit;border-radius: 5px;" class="col-5 disdic has-margin-right">
+    <div class="card">
+      <img style="border-radius: 50%;" class="card-img-top" src="https://cdn3.vectorstock.com/i/thumb-large/32/37/teacher-or-businessman-avatar-vector-8523237.jpg"/>
+      <div class="card-body">
+<hr>
+        <h3 style="font-weight: bolder; text-align: center;font-family: monospace;" class="card-title">Teacher</h3>
+ <hr>    
+</div>
+      <div style="text-align: center; align-items: center" class="card-body">
+        {% if session["teacher_logged_in"] %}
+          <a href="/logout" style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" class="card-link">logout</a>
+          <a href="/explore" style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" class="card-link">Explore</a>
+        {% else %}
+          <a href="/teacher-login" style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" class="card-link">Login</a>
+        {% endif %}
+        <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/schedule" class="card-link">Schedule a class </a> 
+        <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/all-students" class="card-link">Students</a>
+      </div>
+    </div>
+ </div>
+     <div style="box-shadow: 0 20px 30px 0 rgba(6, 133, 133, 0.3);border: inherit;border-radius: 5px;" class="col-5">
+    <div class="card">
+      <img style="border-radius: 50%;" class="card-img-top" src="https://cdn3.vectorstock.com/i/thumb-large/32/37/teacher-or-businessman-avatar-vector-8523237.jpg"/>
+      <div class="card-body">
+<hr>
+        <h3 style="font-weight: bolder; text-align: center;font-family: monospace;" class="card-title">Student</h3>
+ <hr>   
+ </div>
+      <div style="text-align: center; align-items: center" class="card-body">
+      {% if session["logged_in"] %}
+        <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/logout" class="card-link">logout</a> 
+        <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/explore" class="card-link">Explore</a> 
+
+      {% else %}
+        <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/student-register" class="card-link">Signup</a> 
+        <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/student-login" class="card-link">Login</a>
+      {% endif %}
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
