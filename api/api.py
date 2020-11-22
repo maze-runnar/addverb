@@ -218,3 +218,29 @@ def getSchedule():
                 "subjectClasses": subjectclasses
             })
         )
+
+##student progress report of an student/ attendance
+#implement cchart using this data
+def progress(id):
+    student_email = db.session.query(Student).filter_by(id=id).first()
+    if(student_email):
+        answer_count = db.session.query(Answer).filter_by(email=student_email.email).count()
+        question_count = db.session.query(Todo).count()
+        total_classes = db.session.query(MySchedule).filter_by(subject = session["teacher_subject"]).count()
+        attended_class = db.session.query(Attendance).filter_by(email = student_email.email, subject = session["teacher_subject"]).count()
+        missed_class = total_classes - attended_class
+        return make_response(
+            jsonify({
+            "status": "success",
+            data: {
+                "answer_count": answer_count,
+                "question_count": question_count,
+                "total_classes":total_classes,
+                "attended_class": attended_class,
+                "missed_class": missed_class
+            }
+            })
+            )
+    else:
+        return "no data"
+

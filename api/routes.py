@@ -9,7 +9,8 @@ from api.api import  (
     AddQuestion,
     AllQuestions,
     setSchedule,
-    getSchedule
+    getSchedule,
+    progress
 )
 
 api_blueprint.add_url_rule('/', methods=['GET'], view_func=index)
@@ -22,3 +23,4 @@ api_blueprint.add_url_rule('/add-question', methods=["POST"], view_func=AddQuest
 api_blueprint.add_url_rule('/all-questions', methods=["GET"], view_func=AllQuestions)
 api_blueprint.add_url_rule('/set-schedule', methods=["POST"], view_func=setSchedule)
 api_blueprint.add_url_rule('/get-schedule', methods=["GET"], view_func=getSchedule)
+api_blueprint.add_url_rule('/progress/<int:id>', methods=["GET"], view_func=progress)
