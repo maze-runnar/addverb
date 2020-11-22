@@ -171,7 +171,23 @@ def elearning():
 def currentClass():
 
 	allclasses = db.session.query(MySchedule).all()
-	return render_template("todayclass.html", allclasses=allclasses)
+	upcoming_classes = []
+	previous_classes = []
+	for i in allclasses:
+		t = i.time.split("T")
+		x = str(datetime.utcnow()).split(" ")
+		current_time_hour = x[1][0:2]
+		current_time_min = x[1][3:5]
+		current_time_date = x[0]
+		class_time_hour = t[1][0:2]
+		class_time_min = t[1][3:5]
+		class_time_date = t[0]
+		if(current_time_hour > class_time_hour or class_time_date < current_time_date):
+			previous_classes.append(i)
+		else:
+			upcoming_classes.append(i)
+
+	return render_template("todayclass.html", previous_classes = previous_classes, upcoming_classes = upcoming_classes)
 
 # @app.route("/active-assignment", methods = ["Get", "POST"])
 # def assignments():

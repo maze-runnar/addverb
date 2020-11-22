@@ -1,4 +1,5 @@
 {% include "base.html" %}
+<h4> Upcoming Classes</h4>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -9,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-  {% for i in allclasses %}
+  {% for i in upcoming_classes %}
     <tr>
       <th scope="row">{{i.topic}}</th>
       <td>{{i.subject}}</td>
@@ -17,6 +18,26 @@
       <td>
       <a class="btn btn-warning" target="_blank" href="{{i.url}}" role="button">Attend</a>
       </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h4> Previous Classes</h4>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">subject</th>
+      <th scope="col">Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in previous_classes %}
+    <tr>
+      <th scope="row">{{i.topic}}</th>
+      <td>{{i.subject}}</td>
+      <td>{{i.time}}</td>
     </tr>
   {% endfor %}
   </tbody>
