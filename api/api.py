@@ -5,7 +5,8 @@ from api.models.models import (
     Student,
     MySchedule,
     Attendance,
-    Todo
+    Todo,
+    Answer
 )
 
 from datetime import datetime, timedelta
@@ -174,3 +175,46 @@ def AllQuestions():
             "previous_tasks": previous_tasks
         })
     )
+
+def setSchedule():
+    parser = reqparse.RequestParser(bundle_errors=True)
+
+    parser.add_argument('title', help='This field cannot be blank', required=True,)
+    parser.add_argument('task_content', help="This field cannot be blank", required=True)
+
+    # parsing incoming rquest data
+    args = parser.parse_args()
+    subject = args["subject"]
+    topic = args["topic"]
+    time = args["time"]
+    url = args["meetingurl"]
+    new_schedule = MySchedule(subject=subject, topic=topic, time=time, url = url)
+    try:
+        db.session.add(new_schedule)
+        db.session.commit()
+        return make_response(
+            jsonify({
+                "status": "success",
+                "data" : {
+                    "subject": subject,
+                    "topic": topic,
+                    "meeting_url": url,
+                    "time": time
+                }
+            })
+        )
+    except:
+        return "something went wrong"
+
+def getSchedule():
+		current_time = datetime.utcnow
+		subjectclasses = db.session.query(MySchedule).filter_by(subject=session["teacher_subject"]).all()
+		db.session.commit()
+		allclasses = db.session.query(MySchedule).all()
+		db.session.commit()
+		return make_response(
+            jsonify({
+                "allClasses": allclasses,
+                "subjectClasses": subjectclasses
+            })
+        )

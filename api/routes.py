@@ -7,7 +7,9 @@ from api.api import  (
     CurrentClass,
     attendance,
     AddQuestion,
-    AllQuestions
+    AllQuestions,
+    setSchedule,
+    getSchedule
 )
 
 api_blueprint.add_url_rule('/', methods=['GET'], view_func=index)
@@ -18,3 +20,5 @@ api_blueprint.add_url_rule('/current-class', methods=["POST", "GET"], view_func=
 api_blueprint.add_url_rule('/attendance/<int:id>', methods=["GET", "POST"], view_func=attendance)
 api_blueprint.add_url_rule('/add-question', methods=["POST"], view_func=AddQuestion)
 api_blueprint.add_url_rule('/all-questions', methods=["GET"], view_func=AllQuestions)
+api_blueprint.add_url_rule('/set-schedule', methods=["POST"], view_func=setSchedule)
+api_blueprint.add_url_rule('/get-schedule', methods=["GET"], view_func=getSchedule)
