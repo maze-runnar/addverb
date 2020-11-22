@@ -1,4 +1,5 @@
 {% include "base.html" %}
+
 <Div style=" max-width: 70rem; margin: auto; margin-bottom: 5vh; background-color: rgb(65, 43, 43); color: antiquewhite; box-shadow: 0 20px 30px 0 rgba(1, 24, 24, 0.3);
     padding: 10px;
     border: inherit;
@@ -64,7 +65,8 @@ font-family: monospace;">
     
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-info" href="/detail/{{i.id}}">View Answers</a>
     {% if  session["teacher_logged_in"] %}
-      <a href="/addpoints/{{i.id}}" class="btn btn-warning"> Add Points </a>
+      <a href="/addpoints/{{i.id}}" class="btn btn-warning"> add point </a> <br><br> 
+      <form action="/deletequestion/{{i.id}}" method="POST" style="margin-left:100px"><button type="submit" class="btn btn-danger">delete</button></form>
     {% endif %}
     <br><hr>
 {% endfor %}

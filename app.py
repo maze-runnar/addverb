@@ -244,7 +244,17 @@ def Addpoints(id):
 	else:
 		return render_template("addpoints.html", id = id)
 
-
+@app.route("/deletequestion/<int:id>", methods=["GET", "POST"])
+def deleteQuestion(id):
+	if(request.method == "POST"):
+		try:
+			db.session.query(Todo).filter_by(id=id).delete()
+			db.session.commit()
+			return redirect("/all-questions")
+		except:
+			return "error occured"
+	elif(request.method == "GET"):
+		return redirect("/all-questions")
 
 @app.route('/progress/<int:id>', methods=['GET', 'Method'])
 def progress(id):
