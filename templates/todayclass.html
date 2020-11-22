@@ -16,7 +16,9 @@
       <td>{{i.subject}}</td>
       <td>{{i.time}}</td>
       <td>
-      <a class="btn btn-warning" target="_blank" href="{{i.url}}" role="button">Attend</a>
+      <form method="post" action="/attend-class/{{i.id}}">
+      <button type="submit" class="btn btn-warning" role="button">Attend</a>
+      </form>
       </td>
     </tr>
   {% endfor %}

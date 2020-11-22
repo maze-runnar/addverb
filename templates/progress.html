@@ -31,3 +31,37 @@ new Chart(document.getElementById("pie-chart"), {
     }
 });
 </script>
+
+
+<div style="width: 100%;text-align: center;
+            max-width: 70rem;
+            margin: auto;
+            margin-top: 20px;
+            box-shadow: 0 20px 30px 0 rgba(6, 7, 7, 0.3);" class="history"><br>
+Number of attended class: {{attended_class}} <br>
+Number of missed class: {{missed_class}} <br>
+Number of total class: {{total_classes}}<br>
+
+<canvas id="pie-chart1" width="400" height="100"></canvas>
+<br><br>
+</div>
+
+<script>
+new Chart(document.getElementById("pie-chart1"), {
+    type: 'pie',
+    data: {
+      labels: ["Attended Classes", "Missed classes"],
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["green", "red"],
+        data: [{{attended_class}}, {{missed_class}}]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Attendance Report'
+      }
+    }
+});
+</script>

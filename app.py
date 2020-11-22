@@ -13,7 +13,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test2.db'
 db = SQLAlchemy(app)
 
 
-
 # class Student(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     email = db.Column(db.String(200), nullable=False)
@@ -83,6 +82,14 @@ class Student(db.Model):
         self.email = email
         self.password = password
 
+class Attendance(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	email = db.Column(db.String(100))
+	subject = db.Column(db.String(100))
+
+	def __repr__(self):
+		return "<task %r> " % self.id
+
 
 db.create_all()
 
@@ -112,6 +119,7 @@ def StudenLogin():
 		email = request.form['email']
 		passw = request.form['password']
 		try:
+			session["student_email"] = email
 			data = db.session.query(Student).filter_by(email=email, password=passw).first()
 			#db.session.commit()
 			if data is not None:
@@ -132,10 +140,13 @@ def TeacherLogin():
 	if(request.method == "POST"):
 		username = request.form["username"]
 		password = request.form["password"]
+		subject = request.form["subject"]
 		if(username == "teacher" and password=="teacher"):
+			session["teacher_subject"] = subject
+			session["teacher_name"] = "teacher"
 			session["teacher_logged_in"] = True
 			session["logged_in"] = False
-			return redirect("/schedule")
+			return redirect("/")
 		else:
 			return "something went wrong"
 	else:
@@ -169,7 +180,6 @@ def elearning():
 
 @app.route("/current-classes", methods = ["Get", "POST"])
 def currentClass():
-
 	allclasses = db.session.query(MySchedule).all()
 	upcoming_classes = []
 	previous_classes = []
@@ -189,13 +199,27 @@ def currentClass():
 
 	return render_template("todayclass.html", previous_classes = previous_classes, upcoming_classes = upcoming_classes)
 
-# @app.route("/active-assignment", methods = ["Get", "POST"])
-# def assignments():
-# 	return render_template()
 
-# @app.route("/all-assignments", methods = ["Get", "POST"])
-# def posts():
-# 	return render_template()
+@app.route("/attend-class/<int:id>", methods=["GET", "POST"])
+def attendance(id):
+	if request.method == "POST":
+		my_subject = db.session.query(MySchedule).filter_by(id = id).first()
+		my_subject_name = my_subject.subject
+		url = my_subject.url
+		std_email = session["student_email"]
+		new_attendee = Attendance(email=std_email, subject=my_subject_name)
+		try:
+			db.session.add(new_attendee)
+			db.session.commit()
+			return redirect(url)
+		except:
+			return "error is here"
+	else:
+		return redirect("/current-classes")
+	
+
+
+
 
 
 @app.route('/all-questions', methods=['GET', 'POST'])
@@ -277,7 +301,10 @@ def progress(id):
 	student_email = db.session.query(Student).filter_by(id=id).first()
 	answer_count = db.session.query(Answer).filter_by(email=student_email.email).count()
 	question_count = db.session.query(Todo).count()
-	return render_template("progress.html", answer_count=answer_count, question_count=question_count)
+	total_classes = db.session.query(MySchedule).filter_by(subject = session["teacher_subject"]).count()
+	attended_class = db.session.query(Attendance).filter_by(email = student_email.email, subject = session["teacher_subject"]).count()
+	missed_class = total_classes - attended_class
+	return render_template("progress.html", answer_count=answer_count, question_count=question_count, total_classes=total_classes, attended_class=attended_class, missed_class = missed_class)
 
 
 
@@ -297,7 +324,7 @@ def setSchedule():
 			return "something went wrong"
 	else:
 		current_time = datetime.utcnow
-		subjectclasses = db.session.query(MySchedule).filter_by(subject="DMS").all()
+		subjectclasses = db.session.query(MySchedule).filter_by(subject=session["teacher_subject"]).all()
 		db.session.commit()
 		allclasses = db.session.query(MySchedule).all()
 		db.session.commit()
