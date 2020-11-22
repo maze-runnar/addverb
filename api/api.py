@@ -244,3 +244,76 @@ def progress(id):
     else:
         return "no data"
 
+def deleteQuestion(id):
+    try:
+        db.session.query(Todo).filter_by(id=id).delete()
+        db.session.commit()
+        return make_response(
+            jsonify({
+                "status": "successfully deleted",
+                "redirect": "/all-question"
+            })
+        )
+    except:
+        return "error occured"
+
+##add points to question with 
+def Addpoints(id):
+    parser = reqparse.RequestParser(bundle_errors=True)
+
+    parser.add_argument('point', help='points of a question', required=True,)
+    args = parser.parse_args()
+    try:
+        question = db.session.query(Todo).filter_by(id=id).first()
+        points = args["points"]
+        question.points = points
+        db.session.commit()
+        return make_response(
+            jsonify({
+                "status": "point added",
+                "points": points
+            })
+        )
+    except:
+        return "something went wrong"
+
+##give answer a question
+def giveAnswer(id):
+    parser = reqparse.RequestParser(bundle_errors=True)
+
+    parser.add_argument('content', help='answer of a question', required=True,)
+    parser.add_argument('email', help="email of a original poster", required=True)
+
+    args = parser.parse_args()
+    content = args["content"]
+    email = args["email"]
+    name = args["name"]
+    answer = Answer(name=name, email=email, content=content, answer_id = id)
+    try:
+        db.session.add(answer)
+        db.session.commit()
+        return make_response(
+            jsonify({
+                "status": "Answer posted",
+                data: {
+                "content": content,
+                "email": email,
+                "name":name
+                }
+            })
+        )
+    except:
+        return "something went wrong"
+
+##list all answer of a question
+def allAnswers(id):
+	question = db.session.query(Todo).get(id)
+	answers = db.session.query(Answer).filter_by(answer_id=id).all()
+	db.session.commit()
+	return make_response(
+        jsonify({
+            "question":question,
+            "answers": answers
+        })
+    )
+
