@@ -5,7 +5,9 @@ from api.api import  (
     AllStudents,
     Logout,
     CurrentClass,
-    attendance
+    attendance,
+    AddQuestion,
+    AllQuestions
 )
 
 api_blueprint.add_url_rule('/', methods=['GET'], view_func=index)
@@ -14,3 +16,5 @@ api_blueprint.add_url_rule('/allstudents', methods=['GET', 'POST'], view_func=Al
 api_blueprint.add_url_rule('/logout', methods=["POST", "GET"], view_func=Logout)
 api_blueprint.add_url_rule('/current-class', methods=["POST", "GET"], view_func=CurrentClass)
 api_blueprint.add_url_rule('/attendance/<int:id>', methods=["GET", "POST"], view_func=attendance)
+api_blueprint.add_url_rule('/add-question', methods=["POST"], view_func=AddQuestion)
+api_blueprint.add_url_rule('/all-questions', methods=["GET"], view_func=AllQuestions)

@@ -4,8 +4,11 @@ from api import db
 from api.models.models import (
     Student,
     MySchedule,
-    Attendance
+    Attendance,
+    Todo
 )
+
+from datetime import datetime, timedelta
 
 api_blueprint = Blueprint('api','api', url_prefix='/api')
 
@@ -116,3 +119,58 @@ def attendance(id):
             })
         )
 	
+
+def AddQuestion():
+    parser = reqparse.RequestParser(bundle_errors=True)
+
+    parser.add_argument('title', help='This field cannot be blank', required=True,)
+    parser.add_argument('task_content', help="This field cannot be blank", required=True)
+
+    # parsing incoming rquest data
+    args = parser.parse_args()
+    # email = args['email']
+    # password = args['password']
+    title = args["title"]
+    task_content = args['content']
+    complete_in = args["completetime"]
+    subject = args["subject"]
+    email= args["email"]
+    name = args["std_name"]
+    tags = args["tags"]
+    new_task = Todo(title=title,content=task_content,subject=subject,complete_in=complete_in,email=email, name=name, tags=tags)
+    try:
+        db.session.add(new_task)
+        db.session.commit()
+        return make_response(
+            jsonify({
+                "status": "success",
+                "data" : {
+                    "title": title,
+                    "content": task_content,
+                    "complete_in": complete_in,
+                    "subject": subject,
+                    "email": email,
+                    "name":name,
+                    "tags": tags
+                }
+            })
+        )
+    except:
+        return "there was an error in adding your task"
+
+def AllQuestions():
+    tasks = Todo.query.order_by(Todo.date_create).all()
+    new_tasks = []
+    previous_tasks = []
+    for i in tasks:
+        if i.date_create + timedelta(days=i.complete_in) >  datetime.utcnow():
+            new_tasks.append(i)
+        else:
+            previous_tasks.append(i)
+
+    return make_response(
+        jsonify({
+            "new_task": new_tasks,
+            "previous_tasks": previous_tasks
+        })
+    )
