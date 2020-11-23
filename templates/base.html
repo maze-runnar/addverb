@@ -6,4 +6,5 @@
 {% if session["logged_in"] or session["teacher_logged_in"] %}
     <a href="/logout" style="color:red;"> logout </a>
 {% else %}
+    <a href="/login" style="color:red;"> login </a>
 {% endif %}

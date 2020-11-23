@@ -55,12 +55,14 @@ box-shadow: 0 20px 30px 0 rgba(23, 121, 121, 0.3);">
 
 <div id="Paris" class="w3-container w3-display-container city" style="display:none">
   <span onclick="this.parentElement.style.display='none'">&times;</span>
-  
+  <ol>
   {% for i in subjectclasses %}
        <li> {{i.topic}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{i.time}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{i.subject}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{{i.url}}" target="_blank">{{i.url}}</a>
+        &nbsp;<a href="/share/{{i.id}}"> share resources </a>
         </li>
         <br>
     {% endfor %}
+  </ol>
 </div>
 
 <script>

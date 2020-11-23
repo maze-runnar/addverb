@@ -78,9 +78,10 @@ class Student(db.Model):
 	password = db.Column(db.String(80))
 	rollno = db.Column(db.String(80))
 
-	def __init__(self, email, password):
+	def __init__(self, email, password, rollno):
 		self.email = email
 		self.password = password
+		self.rollno = rollno
 
 class Attendance(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -100,6 +101,15 @@ class Notes(db.Model):
 	def __repr__(self):
 		return "<task %r> " % self.id
 
+class Material(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	url = db.Column(db.String(500))
+	subject = db.Column(db.String())
+	date_create = db.Column(db.DateTime, default=datetime.now().date())
+
+	def __repr__(self):
+		return "<task %r> " % self.id
+
 
 db.create_all()
 
@@ -114,8 +124,8 @@ def register():
 	if request.method == 'POST':
 		new_user = Student(
 		email=request.form['email'],
-		password=request.form['password'])
-		rollno = request.form["rollno"]
+		password=request.form['password'],
+		rollno = request.form["rollno"])
 		db.session.add(new_user)
 		db.session.commit()
 		return render_template('student_login.html')
@@ -361,6 +371,27 @@ def notes():
 def yourNotes():
 	yournotes = db.session.query(Notes).filter_by(email=session["student_email"]).all()
 	return render_template("mynotes.html", yournotes = yournotes)
+
+@app.route("/share/<int:id>", methods = ["POST", "GET"])
+def Share(id):
+	if(request.method == "POST"):
+		classes = db.session.query(MySchedule).filter_by(id=id).first()
+		subject = classes.subject
+		url = request.form["url"]
+		new_content = Material(subject=subject,url=url)
+		try:
+			db.session.add(new_content)
+			db.session.commit()
+			return redirect('http://127.0.0.1:5000/schedule')
+		except:
+			return "error is there"
+	else:
+		return render_template("share.html", id=id)
+
+@app.route("/shared", methods=["GET"])
+def shared():
+	material = db.session.query(Material).all()
+	return render_template("sharedmaterial.html", material=material)
 
 if __name__=='__main__':
 	app.run(debug=True)
