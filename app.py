@@ -9,7 +9,7 @@ from datetime import datetime, timedelta,date
 
 app=Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test2.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///addverb.db'
 db = SQLAlchemy(app)
 
 
@@ -73,19 +73,29 @@ class MySchedule(db.Model):
 
 
 class Student(db.Model):
-    """ Create user table"""
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(80), unique=True)
-    password = db.Column(db.String(80))
+	id = db.Column(db.Integer, primary_key=True)
+	email = db.Column(db.String(80), unique=True)
+	password = db.Column(db.String(80))
+	rollno = db.Column(db.String(80))
 
-    def __init__(self, email, password):
-        self.email = email
-        self.password = password
+	def __init__(self, email, password):
+		self.email = email
+		self.password = password
 
 class Attendance(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	email = db.Column(db.String(100))
 	subject = db.Column(db.String(100))
+
+	def __repr__(self):
+		return "<task %r> " % self.id
+
+class Notes(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	email = db.Column(db.String(80))
+	subject = db.Column(db.String(80))
+	heading = db.Column(db.String(100))
+	notecontent = db.Column(db.String(1000))
 
 	def __repr__(self):
 		return "<task %r> " % self.id
@@ -101,15 +111,15 @@ os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 
 @app.route('/student-register', methods=['GET', 'POST'])
 def register():
-    """Register Form"""
-    if request.method == 'POST':
-        new_user = Student(
-            email=request.form['email'],
-            password=request.form['password'])
-        db.session.add(new_user)
-        db.session.commit()
-        return render_template('student_login.html')
-    return render_template('student_register.html')
+	if request.method == 'POST':
+		new_user = Student(
+		email=request.form['email'],
+		password=request.form['password'])
+		rollno = request.form["rollno"]
+		db.session.add(new_user)
+		db.session.commit()
+		return render_template('student_login.html')
+	return render_template('student_register.html')
 
 @app.route('/student-login', methods=['GET', 'POST'])
 def StudenLogin():
@@ -331,7 +341,26 @@ def setSchedule():
 		return render_template("schedule.html", allclasses=allclasses, subjectclasses = subjectclasses)
 
 
+@app.route("/add-notes", methods=["GET", "POST"])
+def notes():
+	if(request.method == "POST"):
+		subject = request.form["subject"]
+		note = request.form["notecontent"]
+		email = session["student_email"]
+		heading = request.form["heading"]
+		new_note = Notes(email=email, subject=subject, heading=heading, notecontent = note )
+		try:
+			db.session.add(new_note)
+			db.session.commit()
+			return redirect("/your-notes")
+		except:
+			return "something went wrong"
+	return render_template("addnote.html")
 
+@app.route("/your-notes", methods=["GET"])
+def yourNotes():
+	yournotes = db.session.query(Notes).filter_by(email=session["student_email"]).all()
+	return render_template("mynotes.html", yournotes = yournotes)
 
 if __name__=='__main__':
 	app.run(debug=True)

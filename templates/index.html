@@ -14,16 +14,16 @@
 </style>
 
 <div  class="container">
-<Div style=" margin-top: 5vh; margin-bottom: 5vh; background-color: rgb(65, 43, 43); color: antiquewhite; box-shadow: 0 20px 30px 0 rgba(1, 24, 24, 0.3);
-    padding: 10px;
+<Div style=" margin-top: 2vh; margin-bottom: 3vh; background-color: rgb(65, 43, 43); color: antiquewhite; box-shadow: 0 20px 30px 0 rgba(1, 24, 24, 0.3);
+    padding: 5px;
     border: inherit;
     border-radius: 5px;" class="heading">
-  <h3 style="padding-top: 5vh; padding-bottom: 5vh; text-align: center; font-family: monospace;" > Make Assignments more engaging </h3>
+  <h3 style="padding-top: 3vh; padding-bottom: 3vh; text-align: center; font-family: monospace;" > Seekho - in your own Kaksha</h3>
 </Div>
 <div style="margin-bottom: 10vh; " class="row justify-content-between">
   <div style="box-shadow: 0 20px 30px 0 rgba(23, 121, 121, 0.3);border: inherit;border-radius: 5px;" class="col-5 disdic has-margin-right">
     <div class="card">
-      <img style="border-radius: 50%;" class="card-img-top" src="https://cdn3.vectorstock.com/i/thumb-large/32/37/teacher-or-businessman-avatar-vector-8523237.jpg"/>
+      <img src="https://www.w3schools.com/howto/img_avatar.png" height="220px" width="220px" style="margin-left:100px;border-radius:50%">
       <div class="card-body">
 <hr>
         <h3 style="font-weight: bolder; text-align: center;font-family: monospace;" class="card-title">Teacher</h3>
@@ -46,8 +46,8 @@
  </div>
      <div style="box-shadow: 0 20px 30px 0 rgba(6, 133, 133, 0.3);border: inherit;border-radius: 5px;" class="col-5">
     <div class="card">
-      <img style="border-radius: 50%;" class="card-img-top" src="https://cdn3.vectorstock.com/i/thumb-large/32/37/teacher-or-businessman-avatar-vector-8523237.jpg"/>
-      <div class="card-body">
+         <img src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/man5-512.png" height="220px" width="220px" style="margin-left:100px">
+       <div class="card-body">
 <hr>
         <h3 style="font-weight: bolder; text-align: center;font-family: monospace;" class="card-title">Student</h3>
  <hr>   
@@ -56,6 +56,7 @@
       {% if session["logged_in"] %}
         <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/logout" class="card-link">logout</a> 
         <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/explore" class="card-link">Explore</a> 
+         <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/add-notes" class="card-link">notes</a> 
 
       {% else %}
         <a style="font-weight: bolder; text-align: center;" onMouseOver="this.style.color='#f07f1d'" onMouseOut="this.style.color='#3dd1c5'" href="/student-register" class="card-link">Signup</a> 
